@@ -86,7 +86,7 @@ export function Scheduler() {
           <div className="flex items-center gap-2">
             <CalendarDays className="size-5 text-primary" />
             <h1 className="text-lg font-semibold text-foreground tracking-tight">
-              Scheduler
+              Ace Scheduler
             </h1>
           </div>
           <span className="hidden sm:inline text-sm text-muted-foreground">
