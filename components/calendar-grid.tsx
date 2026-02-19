@@ -43,19 +43,19 @@ export function CalendarGrid({
   }
 
   return (
-    <div className="flex flex-col flex-1 overflow-hidden">
-      <div className="grid grid-cols-7 border-b border-border">
+    <div className="flex flex-col flex-1 min-h-0 overflow-y-auto overscroll-contain">
+      <div className="grid grid-cols-7 border-b border-border shrink-0">
         {WEEKDAYS.map((day) => (
           <div
             key={day}
-            className="py-3 text-center text-xs font-medium text-muted-foreground uppercase tracking-wider"
+            className="py-2.5 md:py-3 px-0.5 text-center text-[10px] md:text-xs font-medium text-muted-foreground uppercase tracking-wider"
           >
             {day}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 flex-1 auto-rows-fr">
+      <div className="grid grid-cols-7 auto-rows-fr min-h-[360px] md:min-h-0 md:flex-1">
         {days.map((day) => {
           const dayEvents = getEventsForDay(day);
           const isCurrentMonth = isSameMonth(day, currentDate);
@@ -68,7 +68,7 @@ export function CalendarGrid({
               type="button"
               onClick={() => onSelectDate(day)}
               className={cn(
-                "relative flex flex-col items-start border-r border-b border-border p-1.5 text-left transition-colors min-h-[80px] md:min-h-[100px]",
+                "relative flex flex-col items-start border-r border-b border-border p-2 text-left transition-colors min-h-[72px] md:min-h-[100px] touch-manipulation active:scale-[0.98]",
                 !isCurrentMonth && "bg-muted/40",
                 isSelected && "bg-accent",
                 "hover:bg-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"

@@ -3,6 +3,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Improve mobile scroll & touch */
+html {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+}
+body {
+  overflow-x: hidden;
+}
+
 :root {
   --background: oklch(0.98 0.002 240);
   --foreground: oklch(0.15 0.01 240);

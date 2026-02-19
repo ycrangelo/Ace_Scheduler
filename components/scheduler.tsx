@@ -79,9 +79,9 @@ export function Scheduler() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-background">
-      {/* Header */}
-      <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-card">
+    <div className="flex flex-col min-h-screen h-dvh bg-background safe-area-inset">
+      {/* Header - sticky on mobile for easy access */}
+      <header className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-border bg-card">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <CalendarDays className="size-5 text-primary" />
@@ -98,13 +98,13 @@ export function Scheduler() {
         </div>
 
         <div className="flex items-center gap-1">
-          <Button variant="outline" size="sm" onClick={handleToday}>
+          <Button variant="outline" size="sm" onClick={handleToday} className="min-h-[44px] touch-manipulation px-3">
             Today
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="size-8"
+            className="size-10 min-w-[44px] min-h-[44px] touch-manipulation"
             onClick={handlePrevMonth}
             aria-label="Previous month"
           >
@@ -113,7 +113,7 @@ export function Scheduler() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-8"
+            className="size-10 min-w-[44px] min-h-[44px] touch-manipulation"
             onClick={handleNextMonth}
             aria-label="Next month"
           >
@@ -123,40 +123,43 @@ export function Scheduler() {
       </header>
 
       {/* Mobile month label */}
-      <div className="sm:hidden px-4 py-2 border-b border-border bg-card">
+      <div className="sm:hidden shrink-0 px-4 py-2 border-b border-border bg-card">
         <h2 className="text-sm font-medium text-foreground">
           {format(currentDate, "MMMM yyyy")}
         </h2>
       </div>
 
-      {/* Main content */}
-      <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
+      {/* Main content - scrollable on mobile, side-by-side on desktop */}
+      <div className="flex flex-col lg:flex-row flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-behavior-y-contain -webkit-overflow-scrolling-touch">
         {isLoading ? (
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex-1 flex items-center justify-center min-h-[200px]">
             <div className="flex flex-col items-center gap-2 text-muted-foreground">
               <div className="size-6 border-2 border-muted-foreground/30 border-t-primary rounded-full animate-spin" />
               <span className="text-sm">Loading events...</span>
             </div>
           </div>
         ) : (
-          <CalendarGrid
-            currentDate={currentDate}
-            events={events}
-            selectedDate={selectedDate}
-            onSelectDate={handleSelectDate}
-            onEventClick={handleEventClick}
-          />
+          <>
+            <div className="flex-1 min-h-0 flex flex-col lg:min-w-0">
+              <CalendarGrid
+                currentDate={currentDate}
+                events={events}
+                selectedDate={selectedDate}
+                onSelectDate={handleSelectDate}
+                onEventClick={handleEventClick}
+              />
+            </div>
+            <EventSidebar
+              selectedDate={selectedDate}
+              currentDate={currentDate}
+              events={events}
+              allEvents={allEvents}
+              allEventsLoading={allEventsLoading}
+              onEventClick={handleEventClick}
+              onNewEvent={handleNewEvent}
+            />
+          </>
         )}
-
-        <EventSidebar
-          selectedDate={selectedDate}
-          currentDate={currentDate}
-          events={events}
-          allEvents={allEvents}
-          allEventsLoading={allEventsLoading}
-          onEventClick={handleEventClick}
-          onNewEvent={handleNewEvent}
-        />
       </div>
 
       <EventDialog

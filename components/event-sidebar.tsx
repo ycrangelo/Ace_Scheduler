@@ -32,7 +32,7 @@ function EventCard({
       key={event._id}
       type="button"
       onClick={() => onEventClick(event)}
-      className="flex items-start gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors text-left w-full"
+      className="flex items-start gap-3 p-3 sm:p-3 rounded-lg border border-border hover:bg-accent active:scale-[0.99] transition-all text-left w-full min-h-[44px] touch-manipulation"
     >
       <div
         className={cn("size-2.5 rounded-full mt-1.5 shrink-0", colorClasses.dot)}
@@ -129,9 +129,9 @@ export function EventSidebar({
   });
 
   return (
-    <aside className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-border bg-card flex flex-col">
+    <aside className="w-full lg:w-80 shrink-0 border-t lg:border-t-0 lg:border-l border-border bg-card flex flex-col min-h-[280px] lg:min-h-[400px]">
       {/* Header */}
-      <div className="p-4 border-b border-border flex items-center justify-between">
+      <div className="p-4 pb-3 border-b border-border flex items-center justify-between gap-3">
         <div>
           <h2 className="font-semibold text-foreground">
             {selectedDate
@@ -146,7 +146,7 @@ export function EventSidebar({
           <button
             type="button"
             onClick={onNewEvent}
-            className="inline-flex items-center justify-center size-8 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-lg leading-none"
+            className="inline-flex items-center justify-center size-10 min-w-[44px] min-h-[44px] rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 active:scale-95 transition-all text-xl font-medium touch-manipulation"
             aria-label="Add new event"
           >
             +
@@ -155,8 +155,8 @@ export function EventSidebar({
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="day" className="flex flex-col flex-1 overflow-hidden">
-        <TabsList className="mx-4 mt-3 grid w-auto grid-cols-3">
+      <Tabs defaultValue="day" className="flex flex-col flex-1 min-h-0 overflow-y-auto overflow-x-hidden -webkit-overflow-scrolling-touch overscroll-contain">
+        <TabsList className="mx-4 mt-3 shrink-0 grid w-auto grid-cols-3 min-h-[44px]">
           <TabsTrigger value="day" className="text-xs">
             Day
           </TabsTrigger>
@@ -169,7 +169,8 @@ export function EventSidebar({
         </TabsList>
 
         {/* Day view */}
-        <TabsContent value="day" className="flex-1 overflow-y-auto p-4 mt-0">
+        <TabsContent value="day" className="mt-0 flex-1 min-w-0 min-h-0 p-4 pb-8">
+          <div className="flex flex-col gap-2 min-h-0">
           {dayEvents.length === 0 ? (
             <EmptyState
               message="No events scheduled"
@@ -186,10 +187,12 @@ export function EventSidebar({
               ))}
             </div>
           )}
+          </div>
         </TabsContent>
 
         {/* Month view */}
-        <TabsContent value="month" className="flex-1 overflow-y-auto p-4 mt-0">
+        <TabsContent value="month" className="mt-0 flex-1 min-w-0 min-h-0 p-4 pb-8">
+          <div className="flex flex-col gap-2 min-h-0">
           {monthEvents.length === 0 ? (
             <EmptyState message="No events this month" />
           ) : (
@@ -207,10 +210,12 @@ export function EventSidebar({
               ))}
             </div>
           )}
+          </div>
         </TabsContent>
 
         {/* All view */}
-        <TabsContent value="all" className="flex-1 overflow-y-auto p-4 mt-0">
+        <TabsContent value="all" className="mt-0 flex-1 min-w-0 min-h-0 p-4 pb-8">
+          <div className="flex flex-col gap-2 min-h-0">
           {allEventsLoading ? (
             <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
               <Loader2 className="size-5 animate-spin mb-2" />
@@ -233,6 +238,7 @@ export function EventSidebar({
               ))}
             </div>
           )}
+          </div>
         </TabsContent>
       </Tabs>
     </aside>
